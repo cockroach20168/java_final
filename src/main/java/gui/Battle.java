@@ -17,6 +17,7 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 import java.io.*;
+import java.sql.SQLSyntaxErrorException;
 import java.util.Date;
 import java.util.Vector;
 import java.util.concurrent.Semaphore;
@@ -65,17 +66,27 @@ public class Battle {
         try {
             int i = 0;
             while(true){
-                File newfile = new File("record" + i + ".txt");
+                String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+                path = java.net.URLDecoder.decode(path, "UTF-8");
+                String[] pathList = path.split("/");
+                String prePath = "/";
+                for(int temp = 0; temp < pathList.length-1; temp++){
+                    prePath += pathList[temp]+"/";
+                }
+                System.out.println("path:"+prePath+"record" + i + ".txt");
+                File newfile = new File(prePath+"record" + i + ".txt");
                 if(newfile.exists()){
 
                 }else{
                     if(newfile.createNewFile()){
-                        recordFileName = newfile.getName();
-                        System.out.println("create file success");
+                        recordFileName = newfile.getPath();
+                        System.out.println(recordFileName+"   create file success");
+                        //System.exit(-1);
                         break;
                     }
                     else{
                         System.out.println("create file fail");
+                        System.exit(-1);
                     }
                 }
                 i++;
@@ -83,6 +94,7 @@ public class Battle {
             //out.write("1 0\r\n");
         }catch (Exception e){
             e.printStackTrace();
+            System.exit(-1);
         }
     }
     public void output(Creature creature) {

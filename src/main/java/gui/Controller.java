@@ -29,7 +29,7 @@ public class Controller{
     public void initialize(URL location, ResourceBundle resources){
 
     }
-    public void init(){
+    public void myInit(){
         animationEnd = new Semaphore(0);
         animationStart = new Semaphore(0);
         Image background = new Image(getClass().getResource("/background.jpg").toString());

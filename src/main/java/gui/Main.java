@@ -31,7 +31,7 @@ public class Main extends Application{
             fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
             Parent root = fxmlLoader.load();
             controller = fxmlLoader.getController();
-            controller.init();
+            controller.myInit();
             //Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
             Scene scene = new Scene(root);
             scene.setOnKeyTyped(event -> {
@@ -42,6 +42,7 @@ public class Main extends Application{
                     String temp1 = " ";
                     if(temp.equals(" ")){
                         System.out.println("start game");
+                        //System.exit(-1);
                         controller.startGame();
                     }
                     else if(temp.equals("l")){
