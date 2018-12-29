@@ -44,7 +44,7 @@ public class Creature extends Being {
         return attackStrength;
     }
     public RotateTransition getVictimRotateTransition(){
-        RotateTransition victimRotateTransition = new RotateTransition(Duration.millis(500), imageView);
+        RotateTransition victimRotateTransition = new RotateTransition(Duration.millis(500), getEntity().getImageView());
         victimRotateTransition.setAxis(new Point3D(0, 0, 1));
         victimRotateTransition.setByAngle(180);
         victimRotateTransition.setCycleCount(1);
@@ -61,7 +61,7 @@ public class Creature extends Being {
                 final ColorAdjust colorAdjust = new ColorAdjust();
                 colorAdjust.setBrightness(-0.5);
                 if(frac != 0)   // frac是当前帧，这边一开始就直接亮度减半
-                    imageView.setEffect(colorAdjust);
+                    getEntity().getImageView().setEffect(colorAdjust);
             }
         };
         return victimColorAdjustTransition;
@@ -101,14 +101,10 @@ public class Creature extends Being {
         magicBallscaleTransition.setAutoReverse(false);
         return magicBallscaleTransition;
     }
-    /*
-    public SequentialTransition getHurtAnimation(){
-        return hurtAnimation;
-    }
-    */
     public Boolean getIsDead(){
         return IsDead;
     }
+
     public void setIsDead(boolean flag){
         IsDead = flag;
     }

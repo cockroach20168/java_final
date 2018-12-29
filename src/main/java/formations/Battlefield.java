@@ -5,29 +5,8 @@ import beings.Creature;
 import beings.EvilParty;
 import beings.JustParty;
 import gui.Battle;
-import gui.Controller;
-import javafx.animation.*;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Point3D;
-import javafx.scene.Node;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
-import javafx.util.Duration;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import gui.Global;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -35,11 +14,7 @@ import static java.lang.Math.E;
 import static java.lang.Math.abs;
 
 public class Battlefield {
-    public Battlefield(Battle battle) {
-        //this.controller = controller;
-        this.battle = battle;
-        //this.animationEnd = animationEnd;
-        //this.animationStart = animationStart;
+    public Battlefield() {
         field = new Being[HEIGHT][WIDTH];
         for (int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH; j++){
@@ -71,7 +46,7 @@ public class Battlefield {
         for(int i = 0; i < HEIGHT; i++) {
             for(int j = 0; j <WIDTH; j++){
                 if(field[i][j] != null){
-                    battle.output((Creature)field[i][j]);
+                    Global.battle.output((Creature)field[i][j]);
                 }
                 else{
                     //adapter.output(field[i][j]);
@@ -115,10 +90,7 @@ public class Battlefield {
                     field[y][x] = creature;
                     creature.setPosition(x, y);
                     flag = true;
-                    //System.out.println("battlefield "+Thread.currentThread().getName());
-
-                    battle.move(creature, x, y, oldPositionx, oldPositiony);
-                    //adapter.move(creature, x, y, oldPositionx, oldPositiony);
+                    Global.battle.move(creature, x, y, oldPositionx, oldPositiony);
                 } else {
                     flag = false;
                     System.out.println("NO-WAY 在获取到下个位置的锁后发现该位置有物体");
@@ -133,7 +105,6 @@ public class Battlefield {
         else if(flag){
             flag = false;
         }
-        battle.attack(creature);
         return flag;
     }
 
@@ -159,49 +130,5 @@ public class Battlefield {
     private Being[][] field;
     private Lock[][] lockList = new Lock[WIDTH][HEIGHT];
     //private Controller controller;
-    private Battle battle;
-    /*private Vector<MoveRecord> moveRecordList = new Vector<MoveRecord>();
-    private Vector<AttackRecord> attackRecordList = new Vector<AttackRecord>();
-    boolean flag = false;
-    private Semaphore animationEnd;
-    private Semaphore animationStart;
-    private Creature[] creatureList;
-    class MoveRecord{
-        MoveRecord(Creature being, int newPosx, int newPosy, int oldPosx, int oldPosy){
-            this.being = being;
-            this.newPosx = newPosx;
-            this.newPoxy = newPosy;
-            this.oldPosx = oldPosx;
-            this.oldPosy = oldPosy;
-        }
-        public Creature being;
-        public int newPosx;
-        public int newPoxy;
-        public int oldPosx;
-        public int oldPosy;
-    }
-    class AttackRecord{
-        AttackRecord(Creature criminal, Creature victim, int damage){
-            this.crimimal = criminal;
-            this.victim = victim;
-            this.damage = damage;
-        }
-        public Creature crimimal;
-        public Creature victim;
-        int damage;
-    }
-    class myNode{
-        myNode(int x, int y, int color, myNode parent){
-            this.x = x;
-            this.y = y;
-            this.color = color;
-            this.parent = parent;
-        }
-        int x;
-        int y;
-        int color;
-        int distance = 0;
-        myNode parent;
-    }*/
 }
 

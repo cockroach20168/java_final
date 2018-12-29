@@ -1,5 +1,5 @@
 package gui;
-
+/*
 import beings.BeingImage;
 import beings.CalabashBrother;
 import beings.Grandfather;
@@ -13,7 +13,6 @@ import javafx.util.Duration;
 import java.util.concurrent.Semaphore;
 
 public class CalabashThread extends CalabashBrother implements Runnable{
-
     CalabashThread(Battlefield battlefield, int i, MySemaphore mySemaphore, Battle battle){
         super(i);
         this.setMySemaphore(mySemaphore);
@@ -37,8 +36,8 @@ public class CalabashThread extends CalabashBrother implements Runnable{
             }
         }
     }
-
     private Battlefield battlefield;
     //private RoundTimer roundTimer;
     private Battle battle;
 }
+*/

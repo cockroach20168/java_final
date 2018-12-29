@@ -30,14 +30,10 @@ public class Battle {
     private Creature[] creatureList;
     private Vector<MoveRecord> moveRecordList = new Vector<MoveRecord>();
     private Vector<AttackRecord> attackRecordList = new Vector<AttackRecord>();
-    private Semaphore animationEnd;
-    private Semaphore animationStart;
     private Controller controller;
     private String recordFileName;
-    Battle(Controller controller, Semaphore animationEnd, Semaphore animationStart){
+    Battle(Controller controller){
         this.controller = controller;
-        this.animationEnd = animationEnd;
-        this.animationStart = animationStart;
     }
     public boolean getIsAllEnd(){
         return isAllEnd;
@@ -51,13 +47,7 @@ public class Battle {
     public void setIsFighting(boolean flag){
         isFighting = flag;
     }
-    public Semaphore getAnimationEnd(){
-        return animationEnd;
-    }
-    public Semaphore getAnimationStart(){
-        return animationStart;
-    }
-    public void getCreatureList(Creature[] creatureeList){
+    public void setCreatureList(Creature[] creatureeList){
         this.creatureList = creatureeList;
     }
     public void createRecordFile(){
@@ -103,11 +93,11 @@ public class Battle {
         }
         //battle.move(creature, 75*creature.getPositionx(), 75*creature.getPositiony(), 75*creature.getPositionx(), 75*creature.getPositiony());
         System.out.println("image ready to load on x:"+creature.getPositionx()+"y:"+creature.getPositiony());
-        creature.getImageView().setX(75*creature.getPositionx());
-        creature.getImageView().setY(75*creature.getPositiony());
+        creature.getEntity().getImageView().setX(75*creature.getPositionx());
+        creature.getEntity().getImageView().setY(75*creature.getPositiony());
         creature.getBloodBar().setX(75*creature.getPositionx());
         creature.getBloodBar().setY(75*creature.getPositiony());
-        controller.getBorderPane().getChildren().add(creature.getImageView());
+        controller.getBorderPane().getChildren().add(creature.getEntity().getImageView());
         controller.getBorderPane().getChildren().add(creature.getBloodBar());
     }
     public void writeFormationRecord(){
@@ -170,7 +160,7 @@ public class Battle {
     }
     public void playAnimation(){
         try{
-            animationStart.acquire();
+            Global.animationStart.acquire();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -182,10 +172,10 @@ public class Battle {
             int oldx = moveRecordList.get(i).oldPosx;
             int oldy = moveRecordList.get(i).oldPosy;
             timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
-                    new KeyValue(moveRecordList.get(i).being.getImageView().xProperty(), oldx * 75),
-                    new KeyValue(moveRecordList.get(i).being.getImageView().yProperty(), oldy * 75),
-                    new KeyValue(moveRecordList.get(i).being.getImageView().translateXProperty(), (newx - oldx) * 75),
-                    new KeyValue(moveRecordList.get(i).being.getImageView().translateYProperty(), (newy - oldy) * 75),
+                    new KeyValue(moveRecordList.get(i).being.getEntity().getImageView().xProperty(), oldx * 75),
+                    new KeyValue(moveRecordList.get(i).being.getEntity().getImageView().yProperty(), oldy * 75),
+                    new KeyValue(moveRecordList.get(i).being.getEntity().getImageView().translateXProperty(), (newx - oldx) * 75),
+                    new KeyValue(moveRecordList.get(i).being.getEntity().getImageView().translateYProperty(), (newy - oldy) * 75),
                     new KeyValue(moveRecordList.get(i).being.getBloodBar().xProperty(), oldx * 75),
                     new KeyValue(moveRecordList.get(i).being.getBloodBar().yProperty(), oldy * 75),
                     new KeyValue(moveRecordList.get(i).being.getBloodBar().translateXProperty(), (newx - oldx) * 75),
@@ -219,7 +209,7 @@ public class Battle {
         timelineAttack.setOnFinished(event -> {
             attackRecordList.clear();
             moveRecordList.clear();
-            animationEnd.release();
+            Global.animationEnd.release();
         });
         timelineAttack.setCycleCount(1);
         timelineAttack.setAutoReverse(false);
@@ -235,18 +225,16 @@ public class Battle {
         });
         timeline.play();
     }
-    public void attack(final Creature creature){
+    public void attack(Creature creature){
         synchronized (this){
             System.out.println(creature.getname()+"turn");
             if(!creature.getIsDead()){
                 int x = creature.getPositionx();
                 int y = creature.getPositiony();
-                //System.out.println(creature.getname()+"not dead");
                 try{
                     int distance = 10000;
                     int victimIndex = -1;
                     for(int i = 0; i < creatureList.length; i++) {
-                        //System.out.println(creature.getname() + "在遍历creaturelist:" + i + "," + creatureList.length);
                         if (!creatureList[i].getIsDead() && creature != creatureList[i]
                                 && ((creatureList[i] instanceof JustParty && creature instanceof EvilParty) || (creatureList[i] instanceof EvilParty && creature instanceof JustParty))
                                 ) {
@@ -269,16 +257,14 @@ public class Battle {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                //System.out.println(creature.getname()+"attack release");
-                creature.getMySemaphore().animationEndRelease();
+                creature.getEntity().getMySemaphore().animationEndRelease();
 
             }
             else{
                 System.out.println(creature.getname()+" sorry, I'm dead");
-                creature.getMySemaphore().animationEndRelease();
+                creature.getEntity().getMySemaphore().animationEndRelease();
             }
         }
-        //creature.getMySemaphore().animationEndRelease();
         if(isFinished()){
             isFighting = false;
         }

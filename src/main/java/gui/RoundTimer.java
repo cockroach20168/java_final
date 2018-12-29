@@ -7,18 +7,17 @@ public class RoundTimer implements Runnable{
     //private Semaphore animationStart;
     private boolean isPlay;
     private Battle battle;
+    private int readyTofinished;
     RoundTimer(MySemaphore[] semaphoresList, Battle battle, boolean isPlay){
         this.semaphoresList = semaphoresList;
-        //this.battlefield = battlefield;
-        //this.animationStart = animationStart;
-        //this.animationEnd = animationEnd;
         this.battle = battle;
         this.isPlay = isPlay;
     }
     public void run() {
         int count = 0;
+        readyTofinished = 2;
         while (true) {
-            if (isPlay) {
+            if (isPlay && readyTofinished != 0) {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
@@ -35,14 +34,14 @@ public class RoundTimer implements Runnable{
                 System.out.println("write record");
                 battle.wirteRecord(count);
                 //System.out.println("AAAAAAAAAAAAAA start Animation AAAAAAAAAAA");
-                battle.getAnimationStart().release();
+                Global.animationStart.release();
 
                 System.out.println("play animation");
 
                 battle.playAnimation();
 
                 try {
-                    battle.getAnimationEnd().acquire();
+                    Global.animationEnd.acquire();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -54,9 +53,14 @@ public class RoundTimer implements Runnable{
                 }
 
                 // 该轮动作结束 动画播放结束后 判定战斗结束则退出循环
-                if (!battle.getIsFighting()) {
+                if (!battle.getIsFighting() && readyTofinished == 2) {
+                    System.out.println("clear animation");
                     battle.playClearAnimation();
-                    break;
+                    readyTofinished--;
+                }
+                else if(readyTofinished == 1){
+                    System.out.println("ready to End");
+                    readyTofinished--;
                 }
 
                 System.out.println("next round");
@@ -67,6 +71,10 @@ public class RoundTimer implements Runnable{
                 count++;
 
                 System.out.println("!!!!!!!!!!!!!!!!RoundTimerEnd!!!!!!!!!!!!!!!");
+            }
+            else{
+                System.out.println("RoundTimer End");
+                break;
             }
         }
     }
