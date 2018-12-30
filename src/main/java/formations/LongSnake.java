@@ -1,5 +1,8 @@
 package formations;
 
+import MyAnnotaion.MyAnnotation;
+
+@MyAnnotation(Author = "zmc", Date = "2018/12/15")
 public class LongSnake extends Formation {
     public LongSnake(){
         type = FormationType.LONGSNAKE;

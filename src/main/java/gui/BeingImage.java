@@ -1,8 +1,11 @@
-package beings;
+package gui;
 
 import java.net.URL;
+
+import MyAnnotaion.MyAnnotation;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 public enum BeingImage {
     Snake("/snake.jpg"), Scorpion("/scorpion.jpg"), LittleMonster("/littlemonster.jpg"), RedOne("/redone.jpg"),
     OrangeOne("/orangeone.jpg"), YellowOne("/yellowone.jpg"), GreenOne("/greenone.jpg"), CyanOne("/cyanone.jpg"),

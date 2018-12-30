@@ -1,8 +1,9 @@
 package formations;
 
+import MyAnnotaion.MyAnnotation;
 import beings.Creature;
 import beings.JustParty;
-
+@MyAnnotation(Author = "zmc", Date = "2018/12/19")
 public abstract class Formation {
     public Formation(){
         posList = null;

@@ -1,5 +1,8 @@
 package formations;
 
+import MyAnnotaion.MyAnnotation;
+
+@MyAnnotation(Author = "zmc", Date = "2018/12/12")
 public class BowandArrow extends Formation {
     public BowandArrow(){
         type = FormationType.BOWANDARROW;

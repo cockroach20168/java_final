@@ -1,7 +1,9 @@
 package gui;
 
-import java.util.concurrent.Semaphore;
+import MyAnnotaion.MyAnnotation;
 
+import java.util.concurrent.Semaphore;
+@MyAnnotation(Author = "zmc", Date = "2018/12/15")
 public class MySemaphore {
     MySemaphore(int i, int j){
         semaphoreAnimationEnd = new Semaphore(i);

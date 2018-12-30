@@ -1,5 +1,8 @@
 package formations;
 
+import MyAnnotaion.MyAnnotation;
+
+@MyAnnotation(Author = "zmc", Date = "2018/12/11")
 public class XShape extends Formation {
     public XShape(){
         type = FormationType.XSHAP;

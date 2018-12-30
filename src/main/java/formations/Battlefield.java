@@ -1,5 +1,6 @@
 package formations;
 
+import MyAnnotaion.MyAnnotation;
 import beings.Being;
 import beings.Creature;
 import beings.EvilParty;
@@ -12,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.Math.E;
 import static java.lang.Math.abs;
-
+@MyAnnotation(Author = "zmc", Date = "2018/12/29")
 public class Battlefield {
     public Battlefield() {
         field = new Being[HEIGHT][WIDTH];

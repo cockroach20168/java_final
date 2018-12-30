@@ -1,9 +1,9 @@
 package gui;
 
-import beings.BeingImage;
+import MyAnnotaion.MyAnnotation;
 import beings.Entity;
 import javafx.scene.image.ImageView;
-
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 public class EntityWithSemaphore implements Entity {
     public EntityWithSemaphore(BeingImage imageId){
         setImageView(imageId);

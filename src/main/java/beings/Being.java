@@ -1,8 +1,10 @@
 package beings;
 
+import MyAnnotaion.MyAnnotation;
 import gui.MySemaphore;
 import javafx.scene.image.ImageView;
 
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 public class Being{
     public Being(){
     }

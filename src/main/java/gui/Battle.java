@@ -1,5 +1,6 @@
 package gui;
 
+import MyAnnotaion.MyAnnotation;
 import beings.Creature;
 import beings.EvilParty;
 import beings.JustParty;
@@ -9,21 +10,18 @@ import javafx.animation.KeyValue;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.sql.SQLSyntaxErrorException;
-import java.util.Date;
 import java.util.Vector;
-import java.util.concurrent.Semaphore;
-
 import static java.lang.Math.abs;
-
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 public class Battle {
     private boolean isFighting = false;
     private boolean isAllEnd = true;
@@ -154,7 +152,8 @@ public class Battle {
             //out.flush();
             out.close();
             //System.exit(-1);
-        }catch (Exception e){
+        }catch (IOException e){
+            System.err.println("wirteRecord Error");
             e.printStackTrace();
         }
     }
@@ -186,20 +185,33 @@ public class Battle {
             timelineAttack.getKeyFrames().add(new KeyFrame(Duration.millis(2000), event -> {
                 final Creature victim = attackRecordList.get(index).victim;
                 Creature criminal = attackRecordList.get(index).crimimal;
-
-                final Shape magicBall = new Circle(criminal.getPositionx()*75+37, criminal.getPositiony()*75+37, 15 / 2);
-                magicBall.setFill(Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
-                controller.getBorderPane().getChildren().add(magicBall);
+                int damage = attackRecordList.get(index).damage;
+                boolean flag = false;
+                if (damage < victim.getBloodOfbloodBar()) {
+                    victim.setBloodOfbloodBar(victim.getBloodOfbloodBar() - damage);
+                } else {
+                    flag = true;
+                    victim.setBloodOfbloodBar(0);
+                }
+                final ImageView fireBall = criminal.getMagicBall();
+                fireBall.setX(criminal.getPositionx()*75);
+                fireBall.setY(criminal.getPositiony()*75);
+                fireBall.setFitHeight(75);
+                fireBall.setFitWidth(75);
+                //final Shape magicBall = new Circle(criminal.getPositionx()*75+37, criminal.getPositiony()*75+37, 15 / 2);
+                //magicBall.setFill(Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
+                controller.getBorderPane().getChildren().add(fireBall);
                 SequentialTransition sequentialTransition = new SequentialTransition();
 
-                sequentialTransition.getChildren().add(criminal.getMagicBallscaleTransition(magicBall));
-                sequentialTransition.getChildren().add(criminal.getMagicBalltranslateTransition(magicBall, victim));
+                sequentialTransition.getChildren().add(criminal.getMagicBallscaleTransition(fireBall));
+                sequentialTransition.getChildren().add(criminal.getMagicBalltranslateTransition(fireBall, victim));
+
                 sequentialTransition.getChildren().add(victim.getVictimBloodAdjustTransition());
-                if(victim.getIsDead()) {
+                if(flag) {
                     sequentialTransition.getChildren().add(victim.getVictimRotateTransition());
                     sequentialTransition.getChildren().add(victim.getVictimColorAdjustTransition());
                 }
-                sequentialTransition.setOnFinished(arg0 -> controller.getBorderPane().getChildren().remove(magicBall));
+                sequentialTransition.setOnFinished(arg0 -> controller.getBorderPane().getChildren().remove(fireBall));
                 sequentialTransition.play();
             }));
         }
@@ -247,6 +259,7 @@ public class Battle {
                     if(victimIndex != -1) {
                         if (creature.getAttackStrength() < creatureList[victimIndex].getBlood()) {
                             creatureList[victimIndex].setBlood(creatureList[victimIndex].getBlood() - creature.getAttackStrength());
+                            System.out.println("should not equal 0:"+creatureList[victimIndex].getBlood());
                             hurt(creature, creatureList[victimIndex], creature.getAttackStrength());
                         } else {
                             creatureList[victimIndex].setIsDead(true);
@@ -273,8 +286,8 @@ public class Battle {
         moveRecordList.add(new MoveRecord(creature, newx, newy, oldx, oldy));
     }
     // 填写attack 记录
-    public void hurt(Creature creatureCriminal, Creature creatureVictim, int damage){
-        attackRecordList.add(new AttackRecord(creatureCriminal, creatureVictim, damage));
+    public void hurt(Creature creatureCriminal, Creature creatureVictim, int bloodLeft){
+        attackRecordList.add(new AttackRecord(creatureCriminal, creatureVictim, bloodLeft));
     }
     private boolean isFinished(){
         boolean JustPartyAllDead = true;
@@ -290,6 +303,7 @@ public class Battle {
         return JustPartyAllDead||EvilPartyAllDead;
     }
 }
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 class MoveRecord{
     MoveRecord(Creature being, int newPosx, int newPosy, int oldPosx, int oldPosy){
         this.being = being;
@@ -304,6 +318,7 @@ class MoveRecord{
     public int oldPosx;
     public int oldPosy;
 }
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 class AttackRecord{
     AttackRecord(Creature criminal, Creature victim, int damage){
         this.crimimal = criminal;
@@ -312,5 +327,5 @@ class AttackRecord{
     }
     public Creature crimimal;
     public Creature victim;
-    int damage;
+    public int damage;
 }

@@ -1,5 +1,8 @@
 package formations;
 
+import MyAnnotaion.MyAnnotation;
+
+@MyAnnotation(Author = "zmc", Date = "2018/12/12")
 public class SquareCircle extends Formation {
     public SquareCircle(){
         type = FormationType.SQUARECIRCLE;

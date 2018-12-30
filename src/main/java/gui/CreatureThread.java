@@ -1,12 +1,9 @@
 package gui;
 
-import beings.BeingImage;
-import beings.CalabashBrother;
+import MyAnnotaion.MyAnnotation;
 import beings.Creature;
-import beings.Entity;
 import formations.Battlefield;
-import javafx.scene.image.ImageView;
-
+@MyAnnotation(Author = "zmc", Date = "2018/12/29")
 public class CreatureThread implements Runnable{
 
     CreatureThread(Creature creature, Battlefield battlefield, MySemaphore mySemaphore){
@@ -39,6 +36,7 @@ public class CreatureThread implements Runnable{
     private Creature creature;
     private Battlefield battlefield;
 }
+@MyAnnotation(Author = "zmc", Date = "2018/12/29")
 class JustPartyThread extends CreatureThread{
     public JustPartyThread(Creature creature, Battlefield battlefield, MySemaphore mySemaphore){
         super(creature, battlefield, mySemaphore);
@@ -48,6 +46,7 @@ class JustPartyThread extends CreatureThread{
         return battlefield.moveCreature(creature.getPositionx()+1, creature.getPositiony(), creature);
     }
 }
+@MyAnnotation(Author = "zmc", Date = "2018/12/29")
 class EvilPartyThread extends CreatureThread{
     public EvilPartyThread(Creature creature, Battlefield battlefield, MySemaphore mySemaphore){
         super(creature, battlefield, mySemaphore);

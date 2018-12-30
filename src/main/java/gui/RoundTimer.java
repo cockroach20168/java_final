@@ -1,5 +1,8 @@
 package gui;
 
+import MyAnnotaion.MyAnnotation;
+
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 public class RoundTimer implements Runnable{
     private MySemaphore[] semaphoresList;
     //private Battlefield battlefield;
@@ -47,7 +50,7 @@ public class RoundTimer implements Runnable{
                 }
 
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -1,5 +1,6 @@
 package gui;
 
+import MyAnnotaion.MyAnnotation;
 import beings.*;
 import formations.*;
 import javafx.fxml.FXML;
@@ -14,10 +15,9 @@ import javafx.scene.image.ImageView;
 import other.CalabashGroup;
 import javafx.animation.*;
 import javafx.util.Duration;
-import java.util.concurrent.Semaphore;
 
 import static java.lang.Math.abs;
-
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 public class Controller{
     @FXML
     private BorderPane borderPane;
@@ -42,6 +42,7 @@ public class Controller{
     private void initCreature(){
         enemy = new EvilParty[8];
         scorpion = new Scorpion();
+        scorpion.setMagicBall(new ImageView(MagicBallImage.BlackFireBall.getImage()));
 
         enemy[0] = scorpion;
         enemy[0].setEntity(new EntityWithSemaphore(BeingImage.Scorpion));
@@ -49,12 +50,15 @@ public class Controller{
         for(int i = 1; i < 8; i++){
             enemy[i] = new LittleMonster();
             enemy[i].setEntity(new EntityWithSemaphore(BeingImage.LittleMonster));
+            enemy[i].setMagicBall(new ImageView(MagicBallImage.BlackFireBall.getImage()));
         }
         snake = new Snake();
         snake.setEntity(new EntityWithSemaphore(BeingImage.Snake));
+        snake.setMagicBall(new ImageView(MagicBallImage.BlackFireBall.getImage()));
 
         grandfather = new Grandfather();
         grandfather.setEntity(new EntityWithSemaphore(BeingImage.Grandfather));
+        grandfather.setMagicBall(new ImageView(MagicBallImage.Grandfather.getImage()));
 
         calabashList = new CalabashBrother[7];
         for(int i = 0; i < calabashList.length; i++){
@@ -67,6 +71,15 @@ public class Controller{
         calabashList[4].setEntity(new EntityWithSemaphore(BeingImage.CyanOne));
         calabashList[5].setEntity(new EntityWithSemaphore(BeingImage.BlueOne));
         calabashList[6].setEntity(new EntityWithSemaphore(BeingImage.PurpleOne));
+
+        calabashList[0].setMagicBall(new ImageView(MagicBallImage.RedOne.getImage()));
+        calabashList[1].setMagicBall(new ImageView(MagicBallImage.OrangeOne.getImage()));
+        calabashList[2].setMagicBall(new ImageView(MagicBallImage.YellowOne.getImage()));
+        calabashList[3].setMagicBall(new ImageView(MagicBallImage.GreenOne.getImage()));
+        calabashList[4].setMagicBall(new ImageView(MagicBallImage.CyanOne.getImage()));
+        calabashList[5].setMagicBall(new ImageView(MagicBallImage.BlueOne.getImage()));
+        calabashList[6].setMagicBall(new ImageView(MagicBallImage.PurpleOne.getImage()));
+
         calabashGroup = new CalabashGroup(calabashList);
         creatureList = new Creature[17];
         creatureList[0] = grandfather;

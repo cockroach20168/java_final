@@ -1,9 +1,12 @@
 package beings;
 
+import MyAnnotaion.MyAnnotation;
 import gui.Controller;
 import javafx.animation.*;
 import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -12,6 +15,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
+import static java.lang.Math.sqrt;
+
+@MyAnnotation(Author = "zmc", Date = "2018/12/30")
 public class Creature extends Being {
     Creature(){
         name = "      ";
@@ -29,16 +35,30 @@ public class Creature extends Being {
     protected Boolean IsDead = false;
     protected int blood;
     protected int fullblood;
+    protected int bloodOfbloodBar;
     protected int attackStrength;
     protected Rectangle bloodBar = new Rectangle();
+    protected ImageView magicBall;
     public Rectangle getBloodBar(){
         return bloodBar;
+    }
+    public ImageView getMagicBall(){
+        return magicBall;
+    }
+    public void setMagicBall(ImageView magicBall){
+        this.magicBall = magicBall;
     }
     public int getBlood(){
         return blood;
     }
     public void setBlood(int blood){
         this.blood = blood;
+    }
+    public int getBloodOfbloodBar(){
+        return bloodOfbloodBar;
+    }
+    public void setBloodOfbloodBar(int bloodOfbloodBar){
+        this.bloodOfbloodBar = bloodOfbloodBar;
     }
     public int getAttackStrength(){
         return attackStrength;
@@ -73,16 +93,16 @@ public class Creature extends Being {
             }
             @Override
             protected void interpolate(double frac) {
-                final ColorAdjust colorAdjust = new ColorAdjust();
-                colorAdjust.setBrightness(-0.5);
                 if(frac != 0)   // frac是当前帧，这边一开始就直接亮度减半
-                    bloodBar.setWidth(75*(blood/(1.0*fullblood)));
+                    bloodBar.setWidth(75*(bloodOfbloodBar/(1.0*fullblood)));
             }
         };
         return victimBloodAdjustTransition;
     }
-    public TranslateTransition getMagicBalltranslateTransition(Shape magicBall, Creature victim) {
-        TranslateTransition magicBalltranslateTransition = new TranslateTransition(Duration.millis(200), magicBall);
+    public TranslateTransition getMagicBalltranslateTransition(Node magicBall, Creature victim) {
+        double ratio = sqrt((victim.getPositionx() - getPositionx())*(victim.getPositionx() - getPositionx())
+                +(victim.getPositiony() - getPositiony())*(victim.getPositiony() - getPositiony()))/sqrt(7*7+15*15);
+        TranslateTransition magicBalltranslateTransition = new TranslateTransition(Duration.millis(3000*ratio), magicBall);
         magicBalltranslateTransition.setFromX(0);
         magicBalltranslateTransition.setToX((victim.getPositionx() - getPositionx()) * 75);
         magicBalltranslateTransition.setFromY(0);
@@ -91,8 +111,8 @@ public class Creature extends Being {
         magicBalltranslateTransition.setAutoReverse(false);
         return magicBalltranslateTransition;
     }
-    public ScaleTransition getMagicBallscaleTransition(Shape magicBall){
-        ScaleTransition magicBallscaleTransition = new ScaleTransition(Duration.millis(200), magicBall);
+    public ScaleTransition getMagicBallscaleTransition(Node magicBall){
+        ScaleTransition magicBallscaleTransition = new ScaleTransition(Duration.millis(1000), magicBall);
         magicBallscaleTransition.setFromX(1);
         magicBallscaleTransition.setToX(2);
         magicBallscaleTransition.setFromY(1);
