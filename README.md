@@ -34,6 +34,8 @@
 蛇精|1000|50|black fireball
 蝎子精|1200|80|black fireball
 小喽啰|200|50|blackfireball
+### 生物动作的设计
+播放对应的timeline动画，动画由具体的生物类提供，可以进行后续的修改
 ### 对于同步的设计
 由于是回合制游戏，我认为不能通过简单的同时start多个线程，然后让它们停止相同的时间在进行动作，这在长时间的运行中将可能带来问题，
 在我的设计中，将回合制看作一个生产者消费者问题，即设计一个RoundTimer释放生物线程所需要的RoundStart Semaphore,同时申请获得AnimationEnd Semaphore,
