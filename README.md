@@ -1,6 +1,7 @@
 # java_final
 ## 效果展示
 ![Image text](https://github.com/cockroach20168/java_final/blob/master/image/show.gif)
+\
 ##说明
 ###操作说明
 在cmd中执行mvn clean test package,后进入target目录下使用java -jar java_final-1.0-SNAPSHOT.jar命令启动程序。\
