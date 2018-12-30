@@ -1,7 +1,6 @@
 # java_final
 ## 效果展示
 ![Image text](https://github.com/cockroach20168/java_final/blob/master/image/show.gif)
-\
 ## 说明
 ### 操作说明
 在cmd中执行mvn clean test package,后进入target目录下使用java -jar java_final-1.0-SNAPSHOT.jar命令启动程序。\
@@ -62,7 +61,7 @@
 \
 1.其中CreatureThread类可以override moveForward()方法，在这里EvilPartyThread和JustPartyThread继承并重写了moveForward以满足生物的要求。
 可以通过组合的方式将Creature对象放入CreatureThread及其派生类线程中，然后开始线程。
-对于特殊的生物行为需求可以通过从CreatureThread类派生来实现，方便做后续扩展。
+对于特殊的生物行为需求可以通过从CreatureThread类派生来实现，方便做后续扩展。\
 2.Being类依赖于Entity接口，EntityWithSemaphore从Entity派生，增添了多线程需要的信号量。\
 ![Image text](https://github.com/cockroach20168/java_final/blob/master/image/Battlefield.png)
 \
