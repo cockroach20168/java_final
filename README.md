@@ -1,7 +1,7 @@
 # java_final
 ## 效果展示
 ![Image text](https://github.com/cockroach20168/java_final/blob/master/image/show.gif)
-\
+
 ## 说明
 ### 操作说明
 在cmd中执行mvn clean test package,后进入target目录下使用java -jar java_final-1.0-SNAPSHOT.jar命令启动程序。\
@@ -43,6 +43,7 @@
 简单的实现将所有生物在移动操作时进行互斥将是的线程之间并发度降低，这里采用对每一个Battlefield上的格子添加lock以提高并发度，即每个生物在站上战场后
 拥有一个格子的lock，在它进行移动操作是去尝试对它想去的位置上锁，如果成功则移动到该格子，把之前的格子的锁释放
 如果失败则保持不动，这种实现可以保证一个生物正在尝试移向下一个位置的时候，不会出现所有其它生物都在等它移完
+
 ## 整体运行流程
 从Main类的main方法进入\
 初始controller, 初始界面添加背景\
@@ -62,7 +63,7 @@
 \
 1.其中CreatureThread类可以override moveForward()方法，在这里EvilPartyThread和JustPartyThread继承并重写了moveForward以满足生物的要求。
 可以通过组合的方式将Creature对象放入CreatureThread及其派生类线程中，然后开始线程。
-对于特殊的生物行为需求可以通过从CreatureThread类派生来实现，方便做后续扩展。
+对于特殊的生物行为需求可以通过从CreatureThread类派生来实现，方便做后续扩展。\
 2.Being类依赖于Entity接口，EntityWithSemaphore从Entity派生，增添了多线程需要的信号量。\
 ![Image text](https://github.com/cockroach20168/java_final/blob/master/image/Battlefield.png)
 \
